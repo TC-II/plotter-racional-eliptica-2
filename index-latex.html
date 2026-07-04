@@ -1,0 +1,1177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rational Elliptic Function — LaTeX Style</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Latin Modern Roman', 'Computer Modern', 'CMU Serif', Georgia, 'Times New Roman', serif;
+    background: #ffffff;
+    color: #111111;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    margin: 0;
+    padding: 32px 20px;
+  }
+  .paper {
+    background: #ffffff;
+    max-width: 1000px;
+    width: 100%;
+    padding: 0 24px;
+  }
+  h1 {
+    font-size: 1.5rem;
+    font-weight: 400;
+    margin-bottom: 4px;
+    text-align: center;
+    letter-spacing: 0.2px;
+  }
+  .subtitle {
+    font-size: 0.95rem;
+    font-style: italic;
+    color: #444;
+    margin-bottom: 28px;
+    text-align: center;
+  }
+  .abstract {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: #222;
+    margin: 0 auto 28px;
+    max-width: 760px;
+    text-align: justify;
+    border-top: 1px solid #111;
+    border-bottom: 1px solid #111;
+    padding: 12px 0;
+  }
+  .abstract b { font-variant: small-caps; font-weight: 400; letter-spacing: 0.5px; }
+  .fig1-container {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 8px;
+  }
+  .vslider-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 60px;
+    flex-shrink: 0;
+    position: relative;
+  }
+  .vlabel {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 1.05rem;
+    font-style: italic;
+    white-space: nowrap;
+  }
+  .vslider-wrap {
+    position: relative;
+    margin-top: 32px;
+    height: 228px;
+    width: 28px;
+  }
+  .vslider-track {
+    width: 28px;
+    height: 100%;
+    position: relative;
+  }
+  .vslider-track input[type="range"] {
+    position: absolute;
+    height: 20px;
+    left: 50%;
+    top: 50%;
+    margin: 0;
+    transform-origin: center;
+    transform: translate(-50%, -50%) rotate(-90deg);
+    accent-color: #111;
+  }
+  .vslider-col .vvalue {
+    margin-top: 6px;
+    font-size: 0.85rem;
+    text-align: center;
+    line-height: 1.2;
+  }
+  .vvalue .exact, .hvalue .exact {
+    display: none;
+  }
+  .fig1-right-label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    position: absolute;
+    right: 10px;
+    bottom: 32px;
+    font-size: 0.95rem;
+    font-style: italic;
+  }
+  .fig1-right-label span { font-size: 0.85rem; }
+  .fig1-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    min-width: 260px;
+  }
+  .hslider-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    margin-top: -12px;
+    padding: 0 9.5%;
+  }
+  .hslider-row input[type="range"] {
+    flex: 1;
+    accent-color: #111;
+  }
+  .hslider-row .hlabel {
+    font-size: 1.05rem;
+    font-style: italic;
+    white-space: nowrap;
+  }
+  .hvalue {
+    font-size: 0.8rem;
+    margin-top: 2px;
+    text-align: center;
+  }
+  .figure {
+    margin: 0 0 32px;
+    text-align: center;
+  }
+  .figure canvas {
+    display: block;
+    width: 100%;
+    margin: 0 auto;
+    background: #ffffff;
+  }
+  .figrow {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: center;
+    margin-bottom: 8px;
+  }
+  .figrow .figure { flex: 1; min-width: 280px; margin-bottom: 0; }
+  .figrow .fig1-figure { flex: 1.6; min-width: 440px; }
+  .figcaption {
+    font-size: 0.85rem;
+    color: #111;
+    margin-top: 10px;
+    line-height: 1.4;
+  }
+  .figcaption b { font-weight: 700; }
+  .results {
+    border: 1px solid #111;
+    padding: 16px 20px;
+    margin-bottom: 24px;
+  }
+  .results h2 {
+    font-size: 1rem;
+    font-weight: 400;
+    font-variant: small-caps;
+    letter-spacing: 0.5px;
+    margin-bottom: 12px;
+    border-bottom: 1px solid #111;
+    padding-bottom: 6px;
+  }
+  .result-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 0;
+    border-bottom: 1px dotted #bbb;
+    font-size: 0.92rem;
+  }
+  .result-row:last-child { border-bottom: none; }
+  .result-row .label { color: #222; font-style: italic; }
+  .result-row .value {
+    font-family: 'Latin Modern Roman', Georgia, serif;
+    color: #111;
+  }
+  .result-row .value.highlight {
+    font-weight: 700;
+  }
+  .section-box {
+    margin-top: 14px;
+    border: 1px solid #111;
+    padding: 14px 18px;
+  }
+  .section-box h3 {
+    font-size: 0.92rem;
+    font-weight: 400;
+    font-variant: small-caps;
+    letter-spacing: 0.5px;
+    margin-bottom: 10px;
+  }
+  .section-box .item {
+    font-family: 'Latin Modern Roman', Georgia, serif;
+    font-size: 0.9rem;
+    padding: 2px 0;
+  }
+  .func-box { margin-top: 16px; }
+  .func-box .func-str {
+    font-family: 'Latin Modern Roman', Georgia, serif;
+    font-size: 0.95rem;
+    color: #111;
+    line-height: 1.6;
+    word-break: break-all;
+  }
+  .formula-box {
+    border: 1px solid #111;
+    padding: 14px 18px;
+    font-family: 'Latin Modern Roman', Georgia, serif;
+    font-size: 0.95rem;
+    color: #111;
+    margin-top: 12px;
+    line-height: 1.8;
+  }
+  .formula-box .math { font-style: italic; }
+  .note {
+    font-size: 0.82rem;
+    font-style: italic;
+    color: #555;
+    text-align: center;
+    margin-top: 20px;
+  }
+  @media (max-width: 480px) {
+    .paper { padding: 0; }
+    .figrow { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<div class="paper">
+  <h1>Rational Elliptic Function</h1>
+  <p class="subtitle">Filter template &rarr; k&#8321;, k&#8322; &rarr; zeros, poles, factored form, and plot</p>
+
+  <p class="abstract">
+    Given a normalized low-pass tolerance scheme &mdash; passband gain <i>G<sub>p</sub></i>,
+    stopband gain <i>G<sub>a</sub></i>, and stopband edge &omega;<sub>AN</sub> &mdash; the moduli
+    <i>k</i><sub>1</sub> and <i>k</i><sub>2</sub> are obtained and the elliptic rational function
+    <i>R<sub>N</sub></i>(<i>w</i>) of minimal order <i>N</i> is constructed from its zeros and poles.
+    The following figures illustrate the template, the magnitude response, and the equiripple
+    behaviour of <i>R<sub>N</sub></i>(<i>w</i>).
+  </p>
+
+  <div class="figrow">
+    <div class="figure fig1-figure">
+      <div class="fig1-container">
+        <div class="vslider-col">
+          <div class="vlabel"><i>G<sub>p</sub></i></div>
+          <div class="vslider-wrap">
+            <div class="vslider-track">
+              <input type="range" id="gp" min="0.7" max="0.9999" step="0.0001" value="0.95">
+            </div>
+          </div>
+          <div class="vvalue">
+            <span id="gp-val">0.9500</span>
+            <span class="exact" id="gp-exact"></span>
+          </div>
+        </div>
+
+        <div class="fig1-center">
+          <canvas id="templateCanvas" width="420" height="300"></canvas>
+          <div class="hslider-row">
+            <input type="range" id="wan" min="1.01" max="4" step="0.01" value="2">
+            <span class="hlabel">&omega;<span style="font-size:0.7em;margin-left:-3px;"><sub>AN</sub></span></span>
+          </div>
+          <div class="hvalue">
+            <span id="wan-val">2.00</span>
+            <span class="exact" id="wan-exact"></span>
+          </div>
+        </div>
+        <div class="fig1-right-label"><i>G<sub>a</sub></i><span id="ga-label-val">0.1000</span></div>
+
+        <div class="vslider-col">
+          <div class="vlabel"><i>G<sub>a</sub></i></div>
+          <div class="vslider-wrap">
+            <div class="vslider-track">
+              <input type="range" id="ga" min="0.001" max="0.25" step="0.001" value="0.1">
+            </div>
+          </div>
+          <div class="vvalue">
+            <span id="ga-val">0.1000</span>
+            <span class="exact" id="ga-exact"></span>
+          </div>
+        </div>
+      </div>
+      <div class="figcaption"><b>Fig. 1.</b> Normalized filter template with magnitude response <i>G</i>(<i>w</i>).</div>
+    </div>
+    <div class="figure">
+      <canvas id="plotCanvas" width="420" height="300"></canvas>
+      <div class="figcaption"><b>Fig. 2.</b> Elliptic rational function <i>R<sub>N</sub></i>(<i>w</i>) near the unit square.</div>
+    </div>
+  </div>
+
+  <div class="figure">
+    <canvas id="plotCanvasSymlog" width="960" height="320"></canvas>
+    <div class="figcaption"><b>Fig. 3.</b> <i>R<sub>N</sub></i>(<i>w</i>) on a symmetric-log scale; shaded regions violate the discrimination requirement.</div>
+  </div>
+
+  <div class="results">
+    <h2>Computed Values</h2>
+    <div class="result-row">
+      <span class="label">k₂ = 1 / &omega;<sub>AN</sub></span>
+      <span class="value" id="k2">—</span>
+    </div>
+    <div class="result-row" style="border-bottom: 1px solid #111; padding-bottom: 8px;">
+      <span class="label">k₁ = √[ (1/Gp²−1) / (1/Ga²−1) ]</span>
+      <span class="value" id="k1">—</span>
+    </div>
+    <div class="result-row">
+      <span class="label">L₁ = K(k₁)</span>
+      <span class="value" id="L1">—</span>
+    </div>
+    <div class="result-row">
+      <span class="label">L₂ = K(k₂)</span>
+      <span class="value" id="L2">—</span>
+    </div>
+    <div class="result-row">
+      <span class="label">Lᵢ₁ = K'(k₁)</span>
+      <span class="value" id="Li1">—</span>
+    </div>
+    <div class="result-row">
+      <span class="label">Lᵢ₂ = K'(k₂)</span>
+      <span class="value" id="Li2">—</span>
+    </div>
+    <div class="result-row">
+      <span class="label">Ratio (Lᵢ₁ / Lᵢ₂) · (L₂ / L₁)</span>
+      <span class="value" id="ratio">—</span>
+    </div>
+    <div class="result-row">
+      <span class="label">N = ceil( ratio )</span>
+      <span class="value highlight" id="N">—</span>
+    </div>
+    <div class="result-row" style="border-top: 1px solid #111; padding-top: 8px; margin-top: 4px;">
+      <span class="label">k̇₁  (exact ratio: τ₁ = N · τ₂)</span>
+      <span class="value highlight" id="k1dot">—</span>
+    </div>
+    <div class="result-row">
+      <span class="label">L̇₁ = K(k̇₁)</span>
+      <span class="value" id="L1dot">—</span>
+    </div>
+    <div class="result-row">
+      <span class="label">L̇ᵢ₁ = K'(k̇₁)</span>
+      <span class="value" id="Li1dot">—</span>
+    </div>
+    <div class="result-row" style="border-top: 1px solid #111; padding-top: 8px; margin-top: 4px;">
+      <span class="label">M = N · L̇₁ / L₂</span>
+      <span class="value" id="Mval">—</span>
+    </div>
+  </div>
+
+  <div id="zerosBox" class="section-box" style="display:none;">
+    <h3>Zeros of R<sub>N</sub>(w)</h3>
+    <div id="zerosList"></div>
+  </div>
+
+  <div id="polesBox" class="section-box" style="display:none;">
+    <h3>Poles of R<sub>N</sub>(w)</h3>
+    <div id="polesList"></div>
+  </div>
+
+  <div id="funcBox" class="section-box func-box" style="display:none;">
+    <h3>Factored Form</h3>
+    <div id="funcStr" class="func-str"></div>
+  </div>
+
+  <div class="formula-box">
+    <div>k₂ = <span class="math">1 / &omega;<sub>AN</sub></span></div>
+    <div>k₁ = <span class="math">√[ (1/Gp² − 1) / (1/Ga² − 1) ]</span>  (discrimination factor)</div>
+    <div style="margin-top:6px;">K(k) = <span class="math">π / (2 · AGM(1, √(1−k²)))</span></div>
+    <div>K'(k) = <span class="math">K(√(1−k²))</span></div>
+    <div>N = ceil( <span class="math">(Lᵢ₁ / Lᵢ₂) · (L₂ / L₁)</span> )</div>
+    <div style="margin-top:6px;">τ(k) = <span class="math">K'(k) / K(k)</span></div>
+    <div>Find k̇₁ s.t. <span class="math">τ(k̇₁) = N · τ(k₂)</span></div>
+    <div style="margin-top:6px;">M = <span class="math">N · L̇₁ / L₂</span></div>
+    <div>Wp = <span class="math">1 / (k₂ · Wz)</span></div>
+    <div>G = <span class="math">Π(1−Wp²) / Π(1−Wz²)</span></div>
+  </div>
+
+  <p class="note">Precision target: 1&times;10⁻¹⁰ &nbsp;|&nbsp; &theta;-function series &nbsp;|&nbsp; Sn via AGM</p>
+</div>
+
+<script>
+// ============================================================
+//  Complete Elliptic Integral of the First Kind  K(k)
+//  via the Arithmetic-Geometric Mean (AGM)
+// ============================================================
+function ellipticK(k) {
+  if (k < 0) k = -k;
+  if (k >= 1) return k === 1 ? Infinity : NaN;
+  if (k === 0) return Math.PI / 2;
+  const tol = 1e-12;
+  let a = 1.0;
+  let b = Math.sqrt(1 - k * k);
+  let c = k;
+  while (Math.abs(c) > tol) {
+    const a_next = (a + b) / 2;
+    const b_next = Math.sqrt(a * b);
+    c = (a - b) / 2;
+    a = a_next;
+    b = b_next;
+  }
+  return Math.PI / (2 * a);
+}
+
+function ellipticKprime(k) {
+  const kp = Math.sqrt(1 - k * k);
+  return ellipticK(kp);
+}
+
+function tau(k) {
+  return ellipticKprime(k) / ellipticK(k);
+}
+
+function findKFromTau(target, tol) {
+  if (target <= 0) return 1.0;
+  if (target >= tau(0)) return 0.0;
+  let lo = 0.0, hi = 1.0;
+  while (tau(hi) > target && hi < 0.999999) {
+    hi = (hi + 1.0) / 2;
+  }
+  for (let iter = 0; iter < 200; iter++) {
+    const mid = (lo + hi) / 2;
+    const tMid = tau(mid);
+    if (Math.abs(tMid - target) < tol) return mid;
+    if (tMid > target) lo = mid; else hi = mid;
+  }
+  return (lo + hi) / 2;
+}
+
+function jacobiSn(u, k) {
+  if (k === 0) return Math.sin(u);
+  if (k === 1) return Math.tanh(u);
+  if (u === 0) return 0;
+  const K = ellipticK(k);
+  const q = Math.exp(-Math.PI * ellipticKprime(k) / K);
+  const v = Math.PI * u / (2 * K);
+  let th1 = 0, th2 = 0, th3 = 0, th4 = 0;
+  for (let n = 0; n < 50; n++) {
+    const qn1 = Math.pow(q, (n + 0.5) * (n + 0.5));
+    const qn2 = Math.pow(q, n * n);
+    const sign = (n % 2 === 0) ? 1 : -1;
+    th1 += sign * qn1 * Math.sin((2 * n + 1) * v);
+    th2 += qn1;
+    if (n > 0) { th3 += qn2; th4 += sign * qn2 * Math.cos(2 * n * v); }
+    if (qn2 < 1e-16 && qn1 < 1e-16) break;
+  }
+  th1 *= 2; th2 *= 2; th3 = 1 + 2 * th3; th4 = 1 + 2 * th4;
+  return (th3 / th2) * (th1 / th4);
+}
+
+// ============================================================
+//  Evaluate the rational function R_N(w) from zeros/poles
+//  R(w) = G * prod(w^2 - z_i^2) / prod(w^2 - p_i^2)
+// ============================================================
+function evalRational(w, zeros, poles, G) {
+  // zeros/poles arrays hold both +v and -v for each pair; the pair ±v
+  // corresponds to a single (w² - v²) factor, so only count positive entries
+  // (plus the origin, which is a single simple zero contributing one factor of w).
+  let num = G;
+  for (let i = 0; i < zeros.length; i++) {
+    if (Math.abs(zeros[i]) < 1e-14) {
+      num *= w; // single (odd) zero at the origin
+    } else if (zeros[i] > 0) {
+      num *= (w * w - zeros[i] * zeros[i]); // simple zeros at ±zeros[i]
+    }
+  }
+  let den = 1;
+  for (let i = 0; i < poles.length; i++) {
+    if (poles[i] > 0) {
+      den *= (w * w - poles[i] * poles[i]); // simple poles at ±poles[i]
+    }
+  }
+  return num / den;
+}
+
+// ============================================================
+//  LaTeX-style theme constants (black ink on white paper)
+// ============================================================
+const INK       = '#111111';   // primary line/label ink
+const HATCH     = '#9a9a9a';   // gray diagonal hatching for forbidden regions
+const HATCH_EDGE= '#555555';   // outline of forbidden regions
+const GRIDLINE  = '#dddddd';   // faint grid
+const AUX        = '#666666';  // dashed auxiliary lines (unit square)
+const SERIF     = 'italic 13px "Latin Modern Roman", Georgia, "Times New Roman", serif';
+const SERIF_SM  = 'italic 11px "Latin Modern Roman", Georgia, "Times New Roman", serif';
+
+// ============================================================
+//  Canvas helpers
+// ============================================================
+function drawHatchedRect(ctx, x0, y0, x1, y1, spacing, color) {
+  // x0,y0 = top-left pixel; x1,y1 = bottom-right pixel
+  const left = Math.min(x0, x1), right = Math.max(x0, x1);
+  const top = Math.min(y0, y1), bottom = Math.max(y0, y1);
+  ctx.save();
+  ctx.beginPath();
+  ctx.rect(left, top, right - left, bottom - top);
+  ctx.clip();
+  ctx.strokeStyle = color;
+  ctx.lineWidth = 0.6;
+  const h = bottom - top;
+  for (let d = -h; d <= (right - left); d += spacing) {
+    ctx.beginPath();
+    ctx.moveTo(left + d, bottom);
+    ctx.lineTo(left + d + h, top);
+    ctx.stroke();
+  }
+  ctx.restore();
+}
+
+// Draw a line segment with an arrowhead at (x2,y2) — LaTeX axis style.
+function drawAxisArrow(ctx, x1, y1, x2, y2) {
+  ctx.strokeStyle = INK;
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(x1, y1); ctx.lineTo(x2, y2);
+  ctx.stroke();
+  const ang = Math.atan2(y2 - y1, x2 - x1);
+  const len = 7, spread = 0.38;
+  ctx.beginPath();
+  ctx.moveTo(x2, y2);
+  ctx.lineTo(x2 - len * Math.cos(ang - spread), y2 - len * Math.sin(ang - spread));
+  ctx.moveTo(x2, y2);
+  ctx.lineTo(x2 - len * Math.cos(ang + spread), y2 - len * Math.sin(ang + spread));
+  ctx.stroke();
+}
+
+// ============================================================
+//  UI Logic
+// ============================================================
+const gpSlider  = document.getElementById('gp');
+const gaSlider  = document.getElementById('ga');
+const wanSlider = document.getElementById('wan');
+const gpVal   = document.getElementById('gp-val');
+const gaVal   = document.getElementById('ga-val');
+const gaLabelVal = document.getElementById('ga-label-val');
+const wanVal  = document.getElementById('wan-val');
+const gpExact  = document.getElementById('gp-exact');
+const gaExact  = document.getElementById('ga-exact');
+const wanExact = document.getElementById('wan-exact');
+const k1El    = document.getElementById('k1');
+const k2El    = document.getElementById('k2');
+const L1El    = document.getElementById('L1');
+const L2El    = document.getElementById('L2');
+const Li1El   = document.getElementById('Li1');
+const Li2El   = document.getElementById('Li2');
+const ratioEl = document.getElementById('ratio');
+const NEl     = document.getElementById('N');
+const k1dotEl = document.getElementById('k1dot');
+const L1dotEl = document.getElementById('L1dot');
+const Li1dotEl = document.getElementById('Li1dot');
+const MEl     = document.getElementById('Mval');
+const zerosBox = document.getElementById('zerosBox');
+const zerosListEl = document.getElementById('zerosList');
+const polesBox = document.getElementById('polesBox');
+const polesListEl = document.getElementById('polesList');
+const funcBox = document.getElementById('funcBox');
+const funcStrEl = document.getElementById('funcStr');
+const templateCanvas = document.getElementById('templateCanvas');
+const templateCtx = templateCanvas.getContext('2d');
+const canvas = document.getElementById('plotCanvas');
+const ctx = canvas.getContext('2d');
+const canvas2 = document.getElementById('plotCanvasSymlog');
+const ctx2 = canvas2.getContext('2d');
+let gwLabelTopCanvasY = null; // canvas-space y of the top of the "G(w)" label, set by drawTemplate()
+
+function formatVal(v) {
+  if (!isFinite(v)) return v !== v ? 'N/A' : '∞';
+  if (Math.abs(v) >= 1000) return v.toExponential(6);
+  return v.toFixed(10);
+}
+
+function formatShort(v) {
+  if (!isFinite(v)) return v !== v ? 'N/A' : '∞';
+  if (Math.abs(v) >= 1000) return v.toExponential(4);
+  return v.toFixed(6);
+}
+
+// ------------------------------------------------------------
+//  Fig. 1: Normalized filter template (Gp / Ga / Wan tolerance scheme)
+// ------------------------------------------------------------
+function drawTemplate(Gp, Ga, Wan) {
+  const W = templateCanvas.width;
+  const H = templateCanvas.height;
+  templateCtx.clearRect(0, 0, W, H);
+
+  const xMax = 4.2;
+  const yMax = 1.15;
+  const margin = 40;
+  const plotW = W - 2 * margin;
+  const plotH = H - 2 * margin;
+
+  function xToPixel(x) { return margin + (x / xMax) * plotW; }
+  function yToPixel(y) { return margin + (1 - y / yMax) * plotH; }
+
+  // Forbidden region 1: passband floor, w in [0,1], G in [0,Gp]
+  drawHatchedRect(templateCtx, xToPixel(0), yToPixel(Gp), xToPixel(1), yToPixel(0), 7, HATCH);
+  // Forbidden region 2: stopband ceiling, w in [Wan,xMax], G in [Ga,1]
+  drawHatchedRect(templateCtx, xToPixel(Wan), yToPixel(1), xToPixel(xMax), yToPixel(Ga), 7, HATCH);
+
+  // Boundary outlines — only the constraint edges (Gp top / w=1 right for the
+  // passband box, Ga bottom / w=Wan left for the stopband box).
+  templateCtx.strokeStyle = INK;
+  templateCtx.lineWidth = 1;
+  templateCtx.beginPath();
+  templateCtx.moveTo(xToPixel(0), yToPixel(Gp)); templateCtx.lineTo(xToPixel(1), yToPixel(Gp)); // top
+  templateCtx.moveTo(xToPixel(1), yToPixel(Gp)); templateCtx.lineTo(xToPixel(1), yToPixel(0));  // right
+  templateCtx.moveTo(xToPixel(Wan), yToPixel(Ga)); templateCtx.lineTo(xToPixel(xMax), yToPixel(Ga)); // bottom
+  templateCtx.moveTo(xToPixel(Wan), yToPixel(1)); templateCtx.lineTo(xToPixel(Wan), yToPixel(Ga));   // left
+  templateCtx.stroke();
+
+  // Reference line at G=1 (dotted)
+  templateCtx.strokeStyle = AUX;
+  templateCtx.lineWidth = 0.8;
+  templateCtx.setLineDash([1, 3]);
+  templateCtx.beginPath();
+  templateCtx.moveTo(margin, yToPixel(1));
+  templateCtx.lineTo(W - margin, yToPixel(1));
+  templateCtx.stroke();
+  templateCtx.setLineDash([]);
+
+  // Axes with arrowheads
+  drawAxisArrow(templateCtx, xToPixel(0), yToPixel(0), xToPixel(0), margin - 8);       // vertical (up)
+  drawAxisArrow(templateCtx, xToPixel(0), yToPixel(0), W - margin + 8, yToPixel(0));    // horizontal (right)
+
+  // Labels (serif italic)
+  templateCtx.fillStyle = INK;
+  templateCtx.font = SERIF;
+  const gwBaselineY = margin - 10;
+  templateCtx.fillText('G(w)', xToPixel(0) + 6, gwBaselineY);
+  const gwMetrics = templateCtx.measureText('G(w)');
+  gwLabelTopCanvasY = gwBaselineY - (gwMetrics.actualBoundingBoxAscent || 10);
+  templateCtx.fillText('w', W - margin - 16, yToPixel(0) + 10);
+  templateCtx.font = SERIF_SM;
+  templateCtx.fillText('1', xToPixel(0) - 14, yToPixel(1) + 3);
+  templateCtx.fillText('Gp', xToPixel(0) - 22, yToPixel(Gp) + 3);
+  templateCtx.fillText('Ga', W - margin + 6, yToPixel(Ga) + 3);
+  templateCtx.fillText('0', xToPixel(0) - 12, yToPixel(0) + 13);
+  templateCtx.fillText('1', xToPixel(1) - 3, yToPixel(0) + 14);
+  templateCtx.fillText('ω', xToPixel(Wan) - 12, yToPixel(0) + 14);
+  templateCtx.font = 'italic 8px "Latin Modern Roman", Georgia, serif';
+  templateCtx.fillText('AN', xToPixel(Wan) + 2, yToPixel(0) + 18);
+}
+
+// ------------------------------------------------------------
+//  Overlay the actual filter magnitude response on the template:
+//  G(w) = 1 / sqrt(1 + ε² · R_N(w)²), ε² = 1/Gp² − 1.
+// ------------------------------------------------------------
+function drawTemplateResponse(zeros, poles, Ggain, epsSq, Wan) {
+  const W = templateCanvas.width;
+  const H = templateCanvas.height;
+  const xMax = 4.2;
+  const yMax = 1.15;
+  const margin = 40;
+  const plotW = W - 2 * margin;
+  const plotH = H - 2 * margin;
+
+  function xToPixel(x) { return margin + (x / xMax) * plotW; }
+  function yToPixel(y) { return margin + (1 - y / yMax) * plotH; }
+
+  const steps = 500;
+  templateCtx.strokeStyle = INK;
+  templateCtx.lineWidth = 1.6;
+  templateCtx.beginPath();
+  let started = false;
+  for (let i = 0; i <= steps; i++) {
+    const w = xMax * i / steps;
+    const r = evalRational(w, zeros, poles, Ggain);
+    const gVal = 1 / Math.sqrt(1 + epsSq * r * r);
+    if (isFinite(gVal)) {
+      const x = xToPixel(w);
+      const y = yToPixel(Math.min(gVal, yMax));
+      if (!started) { templateCtx.moveTo(x, y); started = true; }
+      else { templateCtx.lineTo(x, y); }
+    } else { started = false; }
+  }
+  templateCtx.stroke();
+}
+
+// ------------------------------------------------------------
+//  Region overlay for R_N(w) plots: a small dashed box at ±1,
+//  plus hatched forbidden bands where |w| > 1/k2 and |R(w)| < 1/k1.
+// ------------------------------------------------------------
+function drawRegionOverlay(c, xToPixel, yToPixel, xMin, xMax, yMin, yMax, k1, k2, margin, W, H) {
+  const invK1 = 1 / k1;
+  const invK2 = 1 / k2;
+
+  // Small dashed box at (-1,-1)..(1,1)
+  if (xMin < 1 && xMax > -1 && yMin < 1 && yMax > -1) {
+    const bx0 = xToPixel(Math.max(-1, xMin));
+    const bx1 = xToPixel(Math.min(1, xMax));
+    const by0 = yToPixel(Math.min(1, yMax));
+    const by1 = yToPixel(Math.max(-1, yMin));
+    c.strokeStyle = AUX;
+    c.lineWidth = 0.9;
+    c.setLineDash([4, 3]);
+    c.strokeRect(bx0, by0, bx1 - bx0, by1 - by0);
+    c.setLineDash([]);
+  }
+
+  // Forbidden bands: |w| > 1/k2 with |R(w)| < 1/k1 (insufficient stopband attenuation)
+  if (isFinite(invK1) && isFinite(invK2)) {
+    const yTopVal = Math.min(invK1, yMax);
+    const yBotVal = Math.max(-invK1, yMin);
+    const by0 = yToPixel(yTopVal);
+    const by1 = yToPixel(yBotVal);
+
+    if (invK2 < xMax) {
+      const rx0 = xToPixel(Math.max(invK2, xMin));
+      const rx1 = xToPixel(xMax);
+      drawHatchedRect(c, rx0, by0, rx1, by1, 8, HATCH);
+      c.strokeStyle = HATCH_EDGE;
+      c.lineWidth = 0.8;
+      c.strokeRect(rx0, by0, rx1 - rx0, by1 - by0);
+      c.fillStyle = '#dc2626';
+      c.font = 'italic 9px "Latin Modern Roman", Georgia, serif';
+      c.fillText('1/k₂', rx1 - 24, by0 + 11);
+      c.fillText('1/k₁', rx1 - 24, by1 - 2);
+    }
+    if (-invK2 > xMin) {
+      const rx0 = xToPixel(xMin);
+      const rx1 = xToPixel(Math.min(-invK2, xMax));
+      drawHatchedRect(c, rx0, by0, rx1, by1, 8, HATCH);
+      c.strokeStyle = HATCH_EDGE;
+      c.lineWidth = 0.8;
+      c.strokeRect(rx0, by0, rx1 - rx0, by1 - by0);
+      c.fillStyle = '#dc2626';
+      c.font = 'italic 9px "Latin Modern Roman", Georgia, serif';
+      c.fillText('-1/k₂', rx0 + 4, by0 + 11);
+      c.fillText('-1/k₁', rx0 + 4, by1 - 2);
+    }
+  }
+}
+
+function update() {
+  const Gp  = parseFloat(gpSlider.value);
+  const Ga  = parseFloat(gaSlider.value);
+  const Wan = parseFloat(wanSlider.value);
+
+  gpVal.textContent = Gp.toFixed(4);
+  gaVal.textContent = Ga.toFixed(4);
+  gaLabelVal.textContent = Ga.toFixed(4);
+  wanVal.textContent = Wan.toFixed(2);
+  gpExact.textContent = `= ${Gp}`;
+  gaExact.textContent = `= ${Ga}`;
+  wanExact.textContent = `= ${Wan}`;
+
+  drawTemplate(Gp, Ga, Wan);
+
+  const k2 = 1 / Wan;
+  const epsSq  = 1 / (Gp * Gp) - 1;  // ε²  = 1/Gp² − 1 (passband ripple factor)
+  const epsASq = 1 / (Ga * Ga) - 1;  // εA² = 1/Ga² − 1 (stopband ripple factor)
+  const k1sq = epsSq / epsASq;
+  const k1 = Math.sqrt(k1sq);
+
+  k1El.textContent = formatVal(k1);
+  k2El.textContent = formatVal(k2);
+
+  const L1  = ellipticK(k1);
+  const L2  = ellipticK(k2);
+  const Li1 = ellipticKprime(k1);
+  const Li2 = ellipticKprime(k2);
+
+  L1El.textContent  = formatVal(L1);
+  L2El.textContent  = formatVal(L2);
+  Li1El.textContent = formatVal(Li1);
+  Li2El.textContent = formatVal(Li2);
+
+  const ratio = (Li1 / Li2) * (L2 / L1);
+  ratioEl.textContent = formatShort(ratio);
+
+  const N = Math.ceil(ratio);
+  NEl.textContent = isFinite(N) ? N : (N === N ? '∞' : 'N/A');
+
+  // Clear R_N(w) plots up front; only populated inside the valid branch below.
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx2.clearRect(0, 0, canvas2.width, canvas2.height);
+
+  if (isFinite(N) && N > 0 && k2 > 0 && isFinite(k1) && k1 > 0 && k1 < 1) {
+    const targetTau = N * tau(k2);
+    const k1dot = findKFromTau(targetTau, 1e-10);
+    const L1dot = ellipticK(k1dot);
+    const Li1dot = ellipticKprime(k1dot);
+    const M = N * L1dot / L2;
+
+    k1dotEl.textContent = k1dot.toFixed(6);
+    L1dotEl.textContent = formatVal(L1dot);
+    Li1dotEl.textContent = formatVal(Li1dot);
+    MEl.textContent = formatVal(M);
+
+    // ---- Build zeros and poles ----
+    const isOdd = (N % 2 === 1);
+    let zeros = [];  // all distinct zero values (including negatives)
+    let poles = [];  // all distinct pole values
+
+    if (isOdd) {
+      zeros.push(0);  // origin zero
+      const nPos = (N - 1) / 2;
+      for (let m = 1; m <= nPos; m++) {
+        const arg = 2 * m * L1 / M;
+        const z = jacobiSn(arg, k2);
+        zeros.push(z);
+        zeros.push(-z);
+      }
+    } else {
+      const nPos = N / 2;
+      for (let m = 1; m <= nPos; m++) {
+        const arg = (2 * m - 1) * L1 / M;
+        const z = jacobiSn(arg, k2);
+        zeros.push(z);
+        zeros.push(-z);
+      }
+    }
+
+    // Poles: for each positive zero, Wp = 1 / (k2 * Wz)
+    for (let i = 0; i < zeros.length; i++) {
+      if (zeros[i] > 1e-14) {
+        const p = 1 / (k2 * zeros[i]);
+        poles.push(p);
+        poles.push(-p);
+      }
+    }
+
+    // ---- Display zeros ----
+    let zHtml = '';
+    for (let i = 0; i < zeros.length; i++) {
+      const z = zeros[i];
+      zHtml += '<div class="item">' + (Math.abs(z) < 1e-14 ? '0' : formatShort(z)) + '</div>';
+    }
+    zerosListEl.innerHTML = zHtml;
+    zerosBox.style.display = 'block';
+
+    // ---- Display poles ----
+    let pHtml = '';
+    for (let i = 0; i < poles.length; i++) {
+      pHtml += '<div class="item">' + formatShort(poles[i]) + '</div>';
+    }
+    polesListEl.innerHTML = pHtml;
+    polesBox.style.display = 'block';
+
+    // ---- Compute gain G so that R(1) = 1 ----
+    let numG = 1, denG = 1;
+    for (let i = 0; i < zeros.length; i++) {
+      if (zeros[i] > 1e-14) denG *= (1 - zeros[i] * zeros[i]);
+    }
+    for (let i = 0; i < poles.length; i++) {
+      if (poles[i] > 1e-14) numG *= (1 - poles[i] * poles[i]);
+    }
+    const G = numG / denG;
+
+    // ---- Overlay the actual filter magnitude response on the template ----
+    drawTemplateResponse(zeros, poles, G, epsSq, Wan);
+
+    // ---- Build factored form string ----
+    let funcStr = 'R<sub>N</sub>(w) = ' + formatShort(G);
+    if (isOdd) {
+      funcStr += ' · w';
+    }
+    for (let i = 0; i < zeros.length; i++) {
+      if (Math.abs(zeros[i]) < 1e-14) continue;
+      if (zeros[i] > 0) {
+        const zs = formatShort(Math.abs(zeros[i]));
+        funcStr += ' · (w² − ' + zs + '²)';
+      }
+    }
+    funcStr += ' /';
+    let firstPole = true;
+    for (let i = 0; i < poles.length; i++) {
+      if (poles[i] > 0) {
+        const ps = formatShort(Math.abs(poles[i]));
+        funcStr += (firstPole ? '' : ' ·') + ' (w² − ' + ps + '²)';
+        firstPole = false;
+      }
+    }
+    funcStrEl.innerHTML = funcStr;
+    funcBox.style.display = 'block';
+
+    // ---- Fig. 2: linear plot ----
+    const W = canvas.width;
+    const H = canvas.height;
+
+    // Fixed symmetric range — square ±1 occupies most of plot
+    const fixedRange = 1.2;
+    const xMin = -fixedRange;
+    const xMax = fixedRange;
+    let yMin = -fixedRange, yMax = fixedRange;
+    const margin = 40;
+    const plotW = W - 2 * margin;
+    const plotH = H - 2 * margin;
+
+    // Equal aspect ratio: use same pixel scale for both axes
+    const maxRange = xMax - xMin;
+    const xCenter = 0, yCenter = 0;
+    const pixelsPerUnit = Math.min(plotW, plotH) / maxRange;
+    const plotCenterX = margin + plotW / 2;
+    const plotCenterY = margin + plotH / 2;
+
+    function xToPixel(x) { return plotCenterX + (x - xCenter) * pixelsPerUnit; }
+    function yToPixel(y) { return plotCenterY - (y - yCenter) * pixelsPerUnit; }
+
+    // Dashed unit square at ±1
+    ctx.strokeStyle = AUX;
+    ctx.lineWidth = 0.9;
+    ctx.setLineDash([4, 3]);
+    ctx.strokeRect(xToPixel(-1), yToPixel(1), xToPixel(1) - xToPixel(-1), yToPixel(-1) - yToPixel(1));
+    ctx.setLineDash([]);
+
+    // Axes with arrowheads (both positive and negative directions)
+    drawAxisArrow(ctx, xToPixel(0), yToPixel(0), xToPixel(0), margin - 8);       // up
+    drawAxisArrow(ctx, xToPixel(0), yToPixel(0), xToPixel(0), H - margin + 8);   // down
+    drawAxisArrow(ctx, xToPixel(0), yToPixel(0), W - margin + 8, yToPixel(0));   // right
+    drawAxisArrow(ctx, xToPixel(0), yToPixel(0), margin - 8, yToPixel(0));       // left
+
+    // Labels
+    ctx.fillStyle = INK;
+    ctx.font = SERIF;
+    ctx.fillText('R(w)', xToPixel(0) + 6, margin - 10);
+    ctx.fillText('w', W - margin - 12, yToPixel(0) - 12);
+    ctx.font = SERIF_SM;
+    ctx.fillText('0', xToPixel(0) - 12, yToPixel(0) + 13);
+
+    // Draw R(w) for w in [xMin, xMax]
+    const steps = 600;
+    ctx.strokeStyle = INK;
+    ctx.lineWidth = 1.6;
+    ctx.beginPath();
+    let started = false;
+    let prevW = null;
+    for (let i = 0; i <= steps; i++) {
+      const w = xMin + (xMax - xMin) * i / steps;
+      const r = evalRational(w, zeros, poles, G);
+
+      let crossesPole = false;
+      if (prevW !== null) {
+        for (let j = 0; j < poles.length; j++) {
+          const p = poles[j];
+          if ((prevW < p && w >= p) || (prevW > p && w <= p)) { crossesPole = true; break; }
+        }
+      }
+      if (crossesPole) started = false;
+
+      const x = xToPixel(w);
+      const y = yToPixel(r);
+      if (isFinite(r) && Math.abs(r) <= 2) {
+        if (!started) { ctx.moveTo(x, y); started = true; }
+        else { ctx.lineTo(x, y); }
+      } else { started = false; }
+      prevW = w;
+    }
+    ctx.stroke();
+
+    // Pole markers (small ×)
+    ctx.strokeStyle = AUX;
+    ctx.lineWidth = 1;
+    for (let i = 0; i < poles.length; i++) {
+      const x = xToPixel(poles[i]);
+      const y = yToPixel(0);
+      ctx.beginPath();
+      ctx.moveTo(x - 2.5, y - 2.5); ctx.lineTo(x + 2.5, y + 2.5);
+      ctx.moveTo(x + 2.5, y - 2.5); ctx.lineTo(x - 2.5, y + 2.5);
+      ctx.stroke();
+    }
+
+    // ---- Fig. 3: Symlog Plot (x: -10..10, y: -10000..10000) ----
+    const W2 = canvas2.width;
+    const H2 = canvas2.height;
+
+    const xMinS = -10, xMaxS = 10;
+    const yMinS = -10000, yMaxS = 10000;
+    const margin2 = 40;
+    const plotW2 = W2 - 2 * margin2;
+    const plotH2 = H2 - 2 * margin2;
+    const thresh = 1;
+
+    function s(v) { return Math.asinh(v / thresh); }
+
+    const sxMin = s(xMinS), sxMax = s(xMaxS);
+    const syMin = s(yMinS), syMax = s(yMaxS);
+
+    function xp(x) { return margin2 + (s(x) - sxMin) / (sxMax - sxMin) * plotW2; }
+    function yp(y) { return margin2 + (1 - (s(y) - syMin) / (syMax - syMin)) * plotH2; }
+
+    // Faint grid lines at powers of 10
+    ctx2.strokeStyle = GRIDLINE;
+    ctx2.lineWidth = 0.5;
+    for (let p = -2; p <= 2; p++) {
+      const v = Math.pow(10, p);
+      if (v >= 1 && v < 100) {
+        const xv = xp(v); ctx2.beginPath(); ctx2.moveTo(xv, margin2); ctx2.lineTo(xv, H2 - margin2); ctx2.stroke();
+        const xnv = xp(-v); ctx2.beginPath(); ctx2.moveTo(xnv, margin2); ctx2.lineTo(xnv, H2 - margin2); ctx2.stroke();
+      }
+      if (v >= 1 && v < 1000) {
+        const yv = yp(v); ctx2.beginPath(); ctx2.moveTo(margin2, yv); ctx2.lineTo(W2 - margin2, yv); ctx2.stroke();
+        const ynv = yp(-v); ctx2.beginPath(); ctx2.moveTo(margin2, ynv); ctx2.lineTo(W2 - margin2, ynv); ctx2.stroke();
+      }
+    }
+
+    // Region overlay
+    drawRegionOverlay(ctx2, xp, yp, xMinS, xMaxS, yMinS, yMaxS, k1, k2, margin2, W2, H2);
+
+    // Axes with arrowheads
+    drawAxisArrow(ctx2, xp(0), yp(0), xp(0), margin2 - 8);
+    drawAxisArrow(ctx2, xp(0), yp(0), W2 - margin2 + 8, yp(0));
+
+    // Sample points: uniform in symlog-space, plus geometric refinement
+    // clusters approaching each pole from both sides (never touching it),
+    // so the steep rise/fall near a pole is rendered smoothly.
+    const steps2 = 1200;
+    let wSamples2 = [];
+    for (let i = 0; i <= steps2; i++) {
+      const sVal = sxMin + (sxMax - sxMin) * i / steps2;
+      wSamples2.push(thresh * Math.sinh(sVal));
+    }
+    for (let j = 0; j < poles.length; j++) {
+      const p = poles[j];
+      if (p <= xMinS || p >= xMaxS) continue;
+      for (let k = 1; k <= 12; k++) {
+        const delta = Math.abs(p) * Math.pow(10, -k);
+        wSamples2.push(p - delta);
+        wSamples2.push(p + delta);
+      }
+    }
+    wSamples2 = wSamples2.filter(w => w >= xMinS && w <= xMaxS);
+    wSamples2.sort((a, b) => a - b);
+
+    // Draw R(w) using the refined sample set
+    ctx2.strokeStyle = INK;
+    ctx2.lineWidth = 1.6;
+    ctx2.beginPath();
+    let started2 = false;
+    let prevW2 = null;
+    for (let i = 0; i < wSamples2.length; i++) {
+      const w = wSamples2[i];
+      const r = evalRational(w, zeros, poles, G);
+
+      let crossesPole = false;
+      if (prevW2 !== null) {
+        for (let j = 0; j < poles.length; j++) {
+          const p = poles[j];
+          if ((prevW2 < p && w >= p) || (prevW2 > p && w <= p)) { crossesPole = true; break; }
+        }
+      }
+      if (crossesPole) started2 = false;
+
+      if (isFinite(r) && Math.abs(r) <= 1000) {
+        const x = xp(w);
+        const y = yp(r);
+        if (x >= margin2 && x <= W2 - margin2) {
+          if (!started2) { ctx2.moveTo(x, y); started2 = true; }
+          else { ctx2.lineTo(x, y); }
+        } else { started2 = false; }
+      } else { started2 = false; }
+      prevW2 = w;
+    }
+    ctx2.stroke();
+
+    // Pole markers (small ×)
+    ctx2.strokeStyle = AUX;
+    ctx2.lineWidth = 1;
+    for (let i = 0; i < poles.length; i++) {
+      const x = xp(poles[i]);
+      if (x >= margin2 && x <= W2 - margin2) {
+        ctx2.beginPath();
+        ctx2.moveTo(x - 2.5, yp(0) - 2.5); ctx2.lineTo(x + 2.5, yp(0) + 2.5);
+        ctx2.moveTo(x + 2.5, yp(0) - 2.5); ctx2.lineTo(x - 2.5, yp(0) + 2.5);
+        ctx2.stroke();
+      }
+    }
+
+    // Labels
+    ctx2.fillStyle = INK;
+    ctx2.font = SERIF;
+    ctx2.fillText('w', W2 - margin2 + 6, yp(0) + 4);
+    ctx2.fillText('R(w)', xp(0) + 6, margin2 - 10);
+    ctx2.font = SERIF_SM;
+    ctx2.fillText('0', xp(0) - 12, yp(0) - 4);
+    // x ticks: ±10, ±100
+    for (let p = 0; p <= 2; p++) {
+      const v = Math.pow(10, p);
+      if (v > 1 && v < 100) {
+        ctx2.fillText('' + v, xp(v) - 6, yp(0) + 14);
+        ctx2.fillText('-' + v, xp(-v) - 14, yp(0) + 14);
+      }
+    }
+    // y ticks: ±1, ±10, ±100, ±1000
+    for (let p = 0; p <= 3; p++) {
+      const v = Math.pow(10, p);
+      if (v <= 1000) {
+        ctx2.fillText('' + v, xp(0) + 4, yp(v) + 4);
+        ctx2.fillText('-' + v, xp(0) + 4, yp(-v) + 4);
+      }
+    }
+
+  } else {
+    k1dotEl.textContent = '—';
+    L1dotEl.textContent = '—';
+    Li1dotEl.textContent = '—';
+    MEl.textContent = '—';
+    zerosBox.style.display = 'none';
+    polesBox.style.display = 'none';
+    funcBox.style.display = 'none';
+
+    ctx.fillStyle = AUX;
+    ctx.font = SERIF;
+    ctx.fillText('invalid parameters (need Gp > Ga)', 24, canvas.height / 2);
+    ctx2.fillStyle = AUX;
+    ctx2.font = SERIF;
+    ctx2.fillText('invalid parameters (need Gp > Ga)', 24, canvas2.height / 2);
+  }
+}
+
+gpSlider.addEventListener('input', update);
+gaSlider.addEventListener('input', update);
+wanSlider.addEventListener('input', update);
+
+// ------------------------------------------------------------
+//  Keep the Gp/Ga vertical slider tracks aligned with the
+//  template plot's Y-axis (arrow tip to axis bottom), which
+//  scales with the canvas's rendered (aspect-ratio-preserved)
+//  size rather than a fixed pixel value.
+// ------------------------------------------------------------
+function syncVSliderAlignment() {
+  const rect = templateCanvas.getBoundingClientRect();
+  const scale = rect.height / templateCanvas.height; // templateCanvas.height = 300 (intrinsic)
+  const marginJS = 40; // matches the `margin` used in drawTemplate()
+  const axisTopOffset = (marginJS - 8) * scale;
+  const axisBottomOffset = (templateCanvas.height - marginJS) * scale;
+
+  // Position labels first (top aligned with the "G(w)" glyph top).
+  const labelTopOffset = gwLabelTopCanvasY !== null ? gwLabelTopCanvasY * scale : axisTopOffset;
+  document.querySelectorAll('.vlabel').forEach(el => {
+    el.style.top = labelTopOffset + 'px';
+  });
+
+  // Tracks span from just below the label down to the axis bottom, so
+  // they never overlap the Gp/Ga text even though the axis arrow tip
+  // sits close to the "G(w)" label.
+  document.querySelectorAll('.vslider-wrap').forEach(el => {
+    const label = el.parentElement.querySelector('.vlabel');
+    const labelHeight = label ? label.getBoundingClientRect().height : 0;
+    const topOffset = Math.max(axisTopOffset, labelTopOffset + labelHeight + 8);
+    const length = axisBottomOffset - topOffset;
+    el.style.marginTop = topOffset + 'px';
+    el.style.height = length + 'px';
+    const input = el.querySelector('input[type="range"]');
+    if (input) input.style.width = length + 'px';
+  });
+}
+window.addEventListener('resize', syncVSliderAlignment);
+
+update();
+syncVSliderAlignment();
+</script>
+
+</body>
+</html>
