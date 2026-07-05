@@ -42,7 +42,7 @@ Open `index.html` in your web browser to start plotting and visualizing rational
 ## Hosting
 
 This project is hosted on GitHub Pages and is publicly accessible at:
-- https://tc2.github.io/plotter-racional-eliptica-2
+- https://tc-ii.github.io/plotter-racional-eliptica-2
 
 ## License
 
