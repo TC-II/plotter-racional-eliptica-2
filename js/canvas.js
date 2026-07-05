@@ -85,9 +85,14 @@ function drawRegionOverlay(c, xToPixel, yToPixel, xMin, xMax, yMin, yMax, k1, k2
       const rx0 = xToPixel(Math.max(invK2, xMin));
       const rx1 = xToPixel(xMax);
       drawHatchedRect(c, rx0, by0, rx1, by1, 8, HATCH);
+      // Border: only top, bottom, and left edges (omit right-most edge)
       c.strokeStyle = HATCH_EDGE;
       c.lineWidth = 0.8;
-      c.strokeRect(rx0, by0, rx1 - rx0, by1 - by0);
+      c.beginPath();
+      c.moveTo(rx0, by0); c.lineTo(rx0, by1); // left
+      c.moveTo(rx0, by0); c.lineTo(rx1, by0); // top
+      c.moveTo(rx0, by1); c.lineTo(rx1, by1); // bottom
+      c.stroke();
       c.fillStyle = '#000000';
       c.font = 'italic 9px "Latin Modern Roman", Georgia, serif';
       c.textAlign = 'left';
@@ -99,9 +104,14 @@ function drawRegionOverlay(c, xToPixel, yToPixel, xMin, xMax, yMin, yMax, k1, k2
       const rx0 = xToPixel(xMin);
       const rx1 = xToPixel(Math.min(-invK2, xMax));
       drawHatchedRect(c, rx0, by0, rx1, by1, 8, HATCH);
+      // Border: only top, bottom, and right edges (omit left-most edge)
       c.strokeStyle = HATCH_EDGE;
       c.lineWidth = 0.8;
-      c.strokeRect(rx0, by0, rx1 - rx0, by1 - by0);
+      c.beginPath();
+      c.moveTo(rx1, by0); c.lineTo(rx1, by1); // right
+      c.moveTo(rx0, by0); c.lineTo(rx1, by0); // top
+      c.moveTo(rx0, by1); c.lineTo(rx1, by1); // bottom
+      c.stroke();
       c.fillStyle = '#000000';
       c.font = 'italic 9px "Latin Modern Roman", Georgia, serif';
       c.textAlign = 'right';
