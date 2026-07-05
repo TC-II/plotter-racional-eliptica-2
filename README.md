@@ -11,24 +11,31 @@ An interactive web-based visualization tool for exploring rational elliptic func
 
 ## Usage
 
-Open `index-latex.html` in your web browser to start plotting and visualizing rational elliptic functions.
-
-There's also a simplified version available at `dismiss/index.html`.
+Open `index.html` in your web browser to start plotting and visualizing rational elliptic functions.
 
 ## Project Structure
 
 ```
 .
-├── index-latex.html      # Main plotter with LaTeX-style interface
-├── dismiss/
-│   └── index.html        # Alternative version
-└── README.md            # This file
+├── index.html           # Entry point — UI markup, loads external CSS/JS
+├── css/
+│   └── style.css        # All styles (LaTeX-inspired typography, layout)
+├── js/
+│   ├── elliptic.js      # Core math: elliptic integrals, Jacobi sn, rational evaluation
+│   ├── canvas.js        # Canvas helpers: hatching, arrows, high-DPI, region overlay
+│   ├── drawTemplate.js  # Fig. 1: Filter template + magnitude response overlay
+│   ├── drawPlot.js      # Fig. 2: Linear R_N(w) plot
+│   ├── drawSymlog.js    # Fig. 3: Symlog R_N(w) plot
+│   ├── ui.js            # UI element references, formatting, slider alignment
+│   └── main.js          # Computation pipeline, orchestration, event listeners
+├── README.md            # This file
+└── .gitignore           # Git ignore rules
 ```
 
 ## How to Use
 
 1. Clone the repository
-2. Open `index-latex.html` in your web browser
+2. Open `index.html` in your web browser
 3. Interact with the plotter controls to visualize different rational elliptic functions
 4. Adjust parameters to explore mathematical properties
 
