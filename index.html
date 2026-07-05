@@ -42,7 +42,6 @@
     line-height: 1.5;
     color: #222;
     margin: 0 auto 28px;
-    max-width: 760px;
     text-align: justify;
     border-top: 1px solid #111;
     border-bottom: 1px solid #111;
@@ -54,6 +53,50 @@
     align-items: flex-start;
     justify-content: center;
     gap: 8px;
+  }
+  input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    background: transparent;
+    cursor: pointer;
+  }
+  input[type="range"]:focus { outline: none; }
+  input[type="range"]::-webkit-slider-runnable-track {
+    height: 1.5px;
+    background: #111;
+  }
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 14px;
+    height: 14px;
+    background: #ffffff;
+    border: 1.5px solid #111;
+    border-radius: 50%;
+    margin-top: -6px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+    transition: transform 0.15s, background 0.15s;
+  }
+  input[type="range"]:hover::-webkit-slider-thumb {
+    transform: scale(1.2);
+    background: #111;
+  }
+  input[type="range"]::-moz-range-track {
+    height: 1.5px;
+    background: #111;
+  }
+  input[type="range"]::-moz-range-thumb {
+    width: 11px;
+    height: 11px;
+    background: #ffffff;
+    border: 1.5px solid #111;
+    border-radius: 50%;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+    transition: transform 0.15s, background 0.15s;
+  }
+  input[type="range"]:hover::-moz-range-thumb {
+    transform: scale(1.2);
+    background: #111;
   }
   .vslider-col {
     display: flex;
@@ -91,7 +134,6 @@
     margin: 0;
     transform-origin: center;
     transform: translate(-50%, -50%) rotate(-90deg);
-    accent-color: #111;
   }
   .vslider-col .vvalue {
     margin-top: 6px;
@@ -102,18 +144,6 @@
   .vvalue .exact, .hvalue .exact {
     display: none;
   }
-  .fig1-right-label {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 2px;
-    position: absolute;
-    right: 10px;
-    bottom: 32px;
-    font-size: 0.95rem;
-    font-style: italic;
-  }
-  .fig1-right-label span { font-size: 0.85rem; }
   .fig1-center {
     display: flex;
     flex-direction: column;
@@ -131,7 +161,6 @@
   }
   .hslider-row input[type="range"] {
     flex: 1;
-    accent-color: #111;
   }
   .hslider-row .hlabel {
     font-size: 1.05rem;
@@ -252,8 +281,7 @@
 
 <div class="paper">
   <h1>Rational Elliptic Function</h1>
-  <p class="subtitle">Filter template &rarr; k&#8321;, k&#8322; &rarr; zeros, poles, factored form, and plot</p>
-
+  
   <p class="abstract">
     Given a normalized low-pass tolerance scheme &mdash; passband gain <i>G<sub>p</sub></i>,
     stopband gain <i>G<sub>a</sub></i>, and stopband edge &omega;<sub>AN</sub> &mdash; the moduli
@@ -270,7 +298,7 @@
           <div class="vlabel"><i>G<sub>p</sub></i></div>
           <div class="vslider-wrap">
             <div class="vslider-track">
-              <input type="range" id="gp" min="0.7" max="0.9999" step="0.0001" value="0.95">
+              <input type="range" id="gp" min="0.7" max="0.9999" step="0.0001" value="0.950">
             </div>
           </div>
           <div class="vvalue">
@@ -282,7 +310,7 @@
         <div class="fig1-center">
           <canvas id="templateCanvas" width="420" height="300"></canvas>
           <div class="hslider-row">
-            <input type="range" id="wan" min="1.01" max="4" step="0.01" value="2">
+            <input type="range" id="wan" min="1.01" max="4" step="0.01" value="1.30">
             <span class="hlabel">&omega;<span style="font-size:0.7em;margin-left:-3px;"><sub>AN</sub></span></span>
           </div>
           <div class="hvalue">
@@ -290,8 +318,6 @@
             <span class="exact" id="wan-exact"></span>
           </div>
         </div>
-        <div class="fig1-right-label"><i>G<sub>a</sub></i><span id="ga-label-val">0.1000</span></div>
-
         <div class="vslider-col">
           <div class="vlabel"><i>G<sub>a</sub></i></div>
           <div class="vslider-wrap">
@@ -308,7 +334,7 @@
       <div class="figcaption"><b>Fig. 1.</b> Normalized filter template with magnitude response <i>G</i>(<i>w</i>).</div>
     </div>
     <div class="figure">
-      <canvas id="plotCanvas" width="420" height="300"></canvas>
+      <canvas id="plotCanvas" width="345" height="300"></canvas>
       <div class="figcaption"><b>Fig. 2.</b> Elliptic rational function <i>R<sub>N</sub></i>(<i>w</i>) near the unit square.</div>
     </div>
   </div>
@@ -397,8 +423,6 @@
     <div>Wp = <span class="math">1 / (k₂ · Wz)</span></div>
     <div>G = <span class="math">Π(1−Wp²) / Π(1−Wz²)</span></div>
   </div>
-
-  <p class="note">Precision target: 1&times;10⁻¹⁰ &nbsp;|&nbsp; &theta;-function series &nbsp;|&nbsp; Sn via AGM</p>
 </div>
 
 <script>
@@ -554,7 +578,6 @@ const gaSlider  = document.getElementById('ga');
 const wanSlider = document.getElementById('wan');
 const gpVal   = document.getElementById('gp-val');
 const gaVal   = document.getElementById('ga-val');
-const gaLabelVal = document.getElementById('ga-label-val');
 const wanVal  = document.getElementById('wan-val');
 const gpExact  = document.getElementById('gp-exact');
 const gaExact  = document.getElementById('ga-exact');
@@ -585,6 +608,37 @@ const canvas2 = document.getElementById('plotCanvasSymlog');
 const ctx2 = canvas2.getContext('2d');
 let gwLabelTopCanvasY = null; // canvas-space y of the top of the "G(w)" label, set by drawTemplate()
 
+// ---- High-DPI canvas: match the canvas pixel buffer to its actual rendered size ×dpr ----
+// Returns [logicalW, logicalH] that drawing code should use as coordinate space.
+function resizeCanvasToDisplay(c) {
+  const dpr  = window.devicePixelRatio || 1;
+  const rect = c.getBoundingClientRect();
+  const physW = Math.round(rect.width  * dpr);
+  const physH = Math.round(rect.height * dpr);
+  if (c.width !== physW || c.height !== physH) {
+    c.width  = physW;
+    c.height = physH;
+  }
+  return [rect.width, rect.height];  // logical CSS-pixel dimensions
+}
+
+// These are updated by resizeAllCanvases() before every draw.
+let TEMPLATE_W = 420, TEMPLATE_H = 300;
+let PLOT_W     = 420, PLOT_H     = 300;
+let SYMLOG_W   = 960, SYMLOG_H   = 320;
+
+function resizeAllCanvases() {
+  [TEMPLATE_W, TEMPLATE_H] = resizeCanvasToDisplay(templateCanvas);
+  [PLOT_W,     PLOT_H    ] = resizeCanvasToDisplay(canvas);
+  [SYMLOG_W,   SYMLOG_H  ] = resizeCanvasToDisplay(canvas2);
+}
+
+// Observe layout changes and redraw
+const _ro = new ResizeObserver(() => { resizeAllCanvases(); update(); syncVSliderAlignment(); });
+_ro.observe(templateCanvas);
+_ro.observe(canvas);
+_ro.observe(canvas2);
+
 function formatVal(v) {
   if (!isFinite(v)) return v !== v ? 'N/A' : '∞';
   if (Math.abs(v) >= 1000) return v.toExponential(6);
@@ -601,8 +655,10 @@ function formatShort(v) {
 //  Fig. 1: Normalized filter template (Gp / Ga / Wan tolerance scheme)
 // ------------------------------------------------------------
 function drawTemplate(Gp, Ga, Wan) {
-  const W = templateCanvas.width;
-  const H = templateCanvas.height;
+  const dpr = window.devicePixelRatio || 1;
+  templateCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  const W = TEMPLATE_W;
+  const H = TEMPLATE_H;
   templateCtx.clearRect(0, 0, W, H);
 
   const xMax = 4.2;
@@ -668,8 +724,10 @@ function drawTemplate(Gp, Ga, Wan) {
 //  G(w) = 1 / sqrt(1 + ε² · R_N(w)²), ε² = 1/Gp² − 1.
 // ------------------------------------------------------------
 function drawTemplateResponse(zeros, poles, Ggain, epsSq, Wan) {
-  const W = templateCanvas.width;
-  const H = templateCanvas.height;
+  const dpr = window.devicePixelRatio || 1;
+  templateCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  const W = TEMPLATE_W;
+  const H = TEMPLATE_H;
   const xMax = 4.2;
   const yMax = 1.15;
   const margin = 40;
@@ -759,13 +817,13 @@ function drawRegionOverlay(c, xToPixel, yToPixel, xMin, xMax, yMin, yMax, k1, k2
 }
 
 function update() {
+  resizeAllCanvases();
   const Gp  = parseFloat(gpSlider.value);
   const Ga  = parseFloat(gaSlider.value);
   const Wan = parseFloat(wanSlider.value);
 
-  gpVal.textContent = Gp.toFixed(4);
-  gaVal.textContent = Ga.toFixed(4);
-  gaLabelVal.textContent = Ga.toFixed(4);
+  gpVal.textContent = Gp.toFixed(2);
+  gaVal.textContent = Ga.toFixed(2);
   wanVal.textContent = Wan.toFixed(2);
   gpExact.textContent = `= ${Gp}`;
   gaExact.textContent = `= ${Ga}`;
@@ -799,8 +857,11 @@ function update() {
   NEl.textContent = isFinite(N) ? N : (N === N ? '∞' : 'N/A');
 
   // Clear R_N(w) plots up front; only populated inside the valid branch below.
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  ctx2.clearRect(0, 0, canvas2.width, canvas2.height);
+  const _dpr = window.devicePixelRatio || 1;
+  ctx.setTransform(_dpr, 0, 0, _dpr, 0, 0);
+  ctx2.setTransform(_dpr, 0, 0, _dpr, 0, 0);
+  ctx.clearRect(0, 0, PLOT_W, PLOT_H);
+  ctx2.clearRect(0, 0, SYMLOG_W, SYMLOG_H);
 
   if (isFinite(N) && N > 0 && k2 > 0 && isFinite(k1) && k1 > 0 && k1 < 1) {
     const targetTau = N * tau(k2);
@@ -823,7 +884,7 @@ function update() {
       zeros.push(0);  // origin zero
       const nPos = (N - 1) / 2;
       for (let m = 1; m <= nPos; m++) {
-        const arg = 2 * m * L1 / M;
+        const arg = 2 * m * L2 / N;
         const z = jacobiSn(arg, k2);
         zeros.push(z);
         zeros.push(-z);
@@ -831,7 +892,7 @@ function update() {
     } else {
       const nPos = N / 2;
       for (let m = 1; m <= nPos; m++) {
-        const arg = (2 * m - 1) * L1 / M;
+        const arg = (2 * m - 1) * L2 / N;
         const z = jacobiSn(arg, k2);
         zeros.push(z);
         zeros.push(-z);
@@ -902,14 +963,16 @@ function update() {
     funcBox.style.display = 'block';
 
     // ---- Fig. 2: linear plot ----
-    const W = canvas.width;
-    const H = canvas.height;
+    const dpr = window.devicePixelRatio || 1;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const W = PLOT_W;
+    const H = PLOT_H;
 
     // Fixed symmetric range — square ±1 occupies most of plot
-    const fixedRange = 1.2;
-    const xMin = -fixedRange;
-    const xMax = fixedRange;
-    let yMin = -fixedRange, yMax = fixedRange;
+    const fixedRange = 1.5;
+    const xMin = -1.5;
+    const xMax = 1.5;
+    let yMin = -1.5, yMax = 1.5;
     const margin = 40;
     const plotW = W - 2 * margin;
     const plotH = H - 2 * margin;
@@ -945,15 +1008,46 @@ function update() {
     ctx.font = SERIF_SM;
     ctx.fillText('0', xToPixel(0) - 12, yToPixel(0) + 13);
 
-    // Draw R(w) for w in [xMin, xMax]
+    // Sample points: uniform, plus geometric refinement clusters approaching
+    // each pole from both sides (never touching it). This guarantees the
+    // last sample before a pole crossing has genuinely large |R(w)|, so the
+    // edge-extension below reflects the true asymptote instead of jumping
+    // from whatever moderate value the coarse uniform grid happened to land on.
     const steps = 600;
+    let wSamples = [];
+    for (let i = 0; i <= steps; i++) {
+      wSamples.push(xMin + (xMax - xMin) * i / steps);
+    }
+    for (let j = 0; j < poles.length; j++) {
+      const p = poles[j];
+      if (p <= xMin || p >= xMax) continue;
+      for (let k = 1; k <= 12; k++) {
+        const delta = Math.max(Math.abs(p), 0.01) * Math.pow(10, -k);
+        wSamples.push(p - delta);
+        wSamples.push(p + delta);
+      }
+    }
+    wSamples = wSamples.filter(w => w >= xMin && w <= xMax);
+    wSamples.sort((a, b) => a - b);
+
     ctx.strokeStyle = INK;
     ctx.lineWidth = 1.6;
     ctx.beginPath();
     let started = false;
     let prevW = null;
-    for (let i = 0; i <= steps; i++) {
-      const w = xMin + (xMax - xMin) * i / steps;
+    let prevX = null, prevR = null;
+    let pendingEdgeEntry = false;
+
+    // Extend curve to Y limits when approaching poles or exceeding range
+    function extendToEdge(signSource) {
+      if (started && prevX !== null) {
+        const edgeVal = signSource >= 0 ? yMax : yMin;
+        ctx.lineTo(prevX, yToPixel(edgeVal));
+      }
+    }
+
+    for (let i = 0; i < wSamples.length; i++) {
+      const w = wSamples[i];
       const r = evalRational(w, zeros, poles, G);
 
       let crossesPole = false;
@@ -963,14 +1057,34 @@ function update() {
           if ((prevW < p && w >= p) || (prevW > p && w <= p)) { crossesPole = true; break; }
         }
       }
-      if (crossesPole) started = false;
+      if (crossesPole) {
+        extendToEdge(prevR !== null ? prevR : 1);
+        started = false;
+        pendingEdgeEntry = true;
+      }
 
-      const x = xToPixel(w);
-      const y = yToPixel(r);
-      if (isFinite(r) && Math.abs(r) <= 2) {
-        if (!started) { ctx.moveTo(x, y); started = true; }
-        else { ctx.lineTo(x, y); }
-      } else { started = false; }
+      if (isFinite(r) && Math.abs(r) <= yMax) {
+        const x = xToPixel(w);
+        const y = yToPixel(r);
+        if (!started) {
+          if (pendingEdgeEntry) {
+            const edgeVal = r >= 0 ? yMax : yMin;
+            ctx.moveTo(x, yToPixel(edgeVal));
+            ctx.lineTo(x, y);
+            pendingEdgeEntry = false;
+          } else {
+            ctx.moveTo(x, y);
+          }
+          started = true;
+        } else {
+          ctx.lineTo(x, y);
+        }
+        prevX = x; prevR = r;
+      } else {
+        extendToEdge(isFinite(r) ? r : (prevR !== null ? prevR : 1));
+        started = false;
+        pendingEdgeEntry = true;
+      }
       prevW = w;
     }
     ctx.stroke();
@@ -988,8 +1102,9 @@ function update() {
     }
 
     // ---- Fig. 3: Symlog Plot (x: -10..10, y: -10000..10000) ----
-    const W2 = canvas2.width;
-    const H2 = canvas2.height;
+    ctx2.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const W2 = SYMLOG_W;
+    const H2 = SYMLOG_H;
 
     const xMinS = -10, xMaxS = 10;
     const yMinS = -10000, yMaxS = 10000;
@@ -1061,7 +1176,7 @@ function update() {
     let started2 = false;
     let prevW2 = null;
     let prevX2 = null, prevR2 = null;
-    let pendingEdgeEntry = false;
+    let pendingEdgeEntry2 = false;
 
     // Whenever the curve is about to break (approaching a pole from the
     // near side), extend it straight up/down to the plot's top/bottom edge
@@ -1090,7 +1205,7 @@ function update() {
       if (crossesPole) {
         extendToEdge2(prevR2 !== null ? prevR2 : 1);
         started2 = false;
-        pendingEdgeEntry = true;
+        pendingEdgeEntry2 = true;
       }
 
       if (isFinite(r) && Math.abs(r) <= yMaxS) {
@@ -1098,11 +1213,11 @@ function update() {
         const y = yp(r);
         if (x >= margin2 && x <= W2 - margin2) {
           if (!started2) {
-            if (pendingEdgeEntry) {
+            if (pendingEdgeEntry2) {
               const edgeVal = r >= 0 ? yMaxS : -yMaxS;
               ctx2.moveTo(x, yp(edgeVal));
               ctx2.lineTo(x, y);
-              pendingEdgeEntry = false;
+              pendingEdgeEntry2 = false;
             } else {
               ctx2.moveTo(x, y);
             }
@@ -1115,7 +1230,7 @@ function update() {
       } else {
         extendToEdge2(isFinite(r) ? r : (prevR2 !== null ? prevR2 : 1));
         started2 = false;
-        pendingEdgeEntry = true;
+        pendingEdgeEntry2 = true;
       }
       prevW2 = w;
     }
@@ -1189,10 +1304,10 @@ wanSlider.addEventListener('input', update);
 // ------------------------------------------------------------
 function syncVSliderAlignment() {
   const rect = templateCanvas.getBoundingClientRect();
-  const scale = rect.height / templateCanvas.height; // templateCanvas.height = 300 (intrinsic)
+  const scale = rect.height / TEMPLATE_H; // TEMPLATE_H = 300 (logical CSS pixels)
   const marginJS = 40; // matches the `margin` used in drawTemplate()
   const axisTopOffset = (marginJS - 8) * scale;
-  const axisBottomOffset = (templateCanvas.height - marginJS) * scale;
+  const axisBottomOffset = (TEMPLATE_H - marginJS) * scale;
 
   // Position labels first (top aligned with the "G(w)" glyph top).
   const labelTopOffset = gwLabelTopCanvasY !== null ? gwLabelTopCanvasY * scale : axisTopOffset;
