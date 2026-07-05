@@ -50,4 +50,4 @@ This project is provided as-is for educational and research purposes.
 
 ## Author
 
-Created by javierpetrucci@gmail.com
+Created by [Javier Petrucci](https://github.com/javierpetrucci)
